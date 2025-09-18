@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des Burgers{% endblock %}
+
+{% block content %}
+    {% include '_header.html.twig' %}
+    {% for burger in burgers %}
+        <h5 class="card-title">{{ burger.nom }}</h5>
+    {% endfor %}
+    {% include '_footer.html.twig' %}
+{% endblock %}
+

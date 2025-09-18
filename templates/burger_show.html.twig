@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Détail du burger{% endblock %}
+
+{% block content %}
+    {% include '_header.html.twig' %}
+    {% if not burger %}
+        <p>Burger non trouvé.</p>
+    {% else %}
+        <h1>{{ burger.nom }}</h1>
+        <p>{{ burger.description }}</p>
+        <p>Prix : {{ burger.prix }} €</p>
+    {% endif %}
+    {% include '_footer.html.twig' %}
+{% endblock %}
+
+
+
