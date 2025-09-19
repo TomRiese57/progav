@@ -5,6 +5,8 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Doctrine\ORM\EntityManagerInterface;
+use App\Entity\Burger;
 
 
 class BurgerController extends AbstractController
@@ -48,5 +50,17 @@ class BurgerController extends AbstractController
         return $this->render('burger_show.html.twig', [
             'burger' => $burgers[$id],
         ]);
+    }
+
+    #[Route('/burger/create', name: 'burger_create')]
+    public function create(EntityManagerInterface $entityManager): Response
+    {
+        $burger = new Burger();
+        $burger->setName('Burger classique');
+
+        $entityManager->persist($burger);
+        $entityManager->flush();
+
+        return new Response('Burger créé avec succès !');
     }
 }
