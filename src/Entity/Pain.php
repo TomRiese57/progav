@@ -16,9 +16,6 @@ class Pain
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\OneToMany(mappedBy: 'pain', targetEntity: Burger::class)]
-    private $burgers;
-
     public function getId(): ?int
     {
         return $this->id;

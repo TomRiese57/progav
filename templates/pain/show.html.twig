@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+{% block title %}Pain{% endblock %}
+{% block body %}
+<h1>Pain</h1>
+{% if pain %}
+    <p>Nom : {{ pain.name }}</p>
+{% else %}
+    <p>Pain non trouvé.</p>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+{% block title %}Image{% endblock %}
+{% block body %}
+<h1>Image</h1>
+{% if image %}
+    <p>Nom : {{ image.name }}</p>
+{% else %}
+    <p>Image non trouvée.</p>
+{% endif %}
+{% endblock %}

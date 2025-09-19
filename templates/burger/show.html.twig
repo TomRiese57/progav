@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+{% block title %}Burger{% endblock %}
+{% block body %}
+<h1>Burger</h1>
+{% if burger %}
+    <p>Nom : {{ burger.name is defined ? burger.name : burger.nom }}</p>
+    {% if burger.description is defined %}
+        <p>Description : {{ burger.description }}</p>
+    {% endif %}
+    {% if burger.prix is defined %}
+        <p>Prix : {{ burger.prix }} €</p>
+    {% endif %}
+{% else %}
+    <p>Burger non trouvé.</p>
+{% endif %}
+{% endblock %}

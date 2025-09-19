@@ -7,7 +7,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Burger;
-
+use App\Repository\BurgerRepository;
+use Symfony\Component\HttpFoundation\Request;
 
 class BurgerController extends AbstractController
 {
@@ -62,5 +63,50 @@ class BurgerController extends AbstractController
         $entityManager->flush();
 
         return new Response('Burger créé avec succès !');
+    }
+
+    #[Route('/burger/{id}', name: 'burger_read')]
+    public function read(BurgerRepository $burgerRepository, int $id): Response
+    {
+        $burger = $burgerRepository->find($id);
+        if (!$burger) {
+            throw $this->createNotFoundException('Burger non trouvé');
+        }
+        return $this->render('burger/show.html.twig', [
+            'burger' => $burger,
+        ]);
+    }
+
+    #[Route('/burger/{id}/update', name: 'burger_update')]
+    public function update(Request $request, EntityManagerInterface $entityManager, BurgerRepository $burgerRepository, int $id): Response
+    {
+        $burger = $burgerRepository->find($id);
+        if (!$burger) {
+            throw $this->createNotFoundException('Burger non trouvé');
+        }
+        $burger->setName('Burger modifié');
+        $entityManager->flush();
+        return new Response('Burger modifié avec succès !');
+    }
+
+    #[Route('/burger/{id}/delete', name: 'burger_delete')]
+    public function delete(EntityManagerInterface $entityManager, BurgerRepository $burgerRepository, int $id): Response
+    {
+        $burger = $burgerRepository->find($id);
+        if (!$burger) {
+            throw $this->createNotFoundException('Burger non trouvé');
+        }
+        $entityManager->remove($burger);
+        $entityManager->flush();
+        return new Response('Burger supprimé avec succès !');
+    }
+
+    #[Route('/burgers', name: 'burger_index')]
+    public function index(BurgerRepository $burgerRepository): Response
+    {
+        $burgers = $burgerRepository->findAll();
+        return $this->render('burger/index.html.twig', [
+            'burgers' => $burgers,
+        ]);
     }
 }

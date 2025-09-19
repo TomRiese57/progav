@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+{% block title %}Oignon{% endblock %}
+{% block body %}
+<h1>Oignon</h1>
+{% if oignon %}
+    <p>Nom : {{ oignon.name }}</p>
+{% else %}
+    <p>Oignon non trouvé.</p>
+{% endif %}
+{% endblock %}
