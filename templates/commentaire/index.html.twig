@@ -2,18 +2,20 @@
 
 {% block title %}Liste des commentaires{% endblock %}
 
-{% block body %}
-<h1>Liste des commentaires</h1>
-<ul>
-    {% for commentaire in commentaires %}
-        <li>{{ commentaire.name }}</li>
-    {% else %}
-        <li>Aucun commentaire trouvé.</li>
-    {% endfor %}
-</ul>
+{% block content %}
+    {% include '_header.html.twig' %}
+    <h1>Liste des commentaires</h1>
+    <ul>
+        {% for commentaire in commentaires %}
+            <li>{{ commentaire.name }}</li>
+        {% else %}
+            <li>Aucun commentaire trouvé.</li>
+        {% endfor %}
+    </ul>
     <ul>
         <li>Your controller at <code>C:/Users/Tom/Documents/IUT/A3/S5/progav/src/Controller/CommentaireController.php</code></li>
         <li>Your template at <code>C:/Users/Tom/Documents/IUT/A3/S5/progav/templates/commentaire/index.html.twig</code></li>
     </ul>
-</div>
+    </div>
+    {% include '_footer.html.twig' %}
 {% endblock %}

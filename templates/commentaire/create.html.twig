@@ -1,5 +1,7 @@
 {% extends 'base.html.twig' %}
 {% block title %}Créer un commentaire{% endblock %}
-{% block body %}
-<h1>Commentaire créé avec succès !</h1>
+{% block content %}
+    {% include '_header.html.twig' %}
+    <h1>Commentaire créé avec succès !</h1>
+    {% include '_footer.html.twig' %}
 {% endblock %}

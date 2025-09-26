@@ -2,18 +2,20 @@
 
 {% block title %}Liste des oignons{% endblock %}
 
-{% block body %}
-<h1>Liste des oignons</h1>
-<ul>
-    {% for oignon in oignons %}
-        <li>{{ oignon.name }}</li>
-    {% else %}
-        <li>Aucun oignon trouvé.</li>
-    {% endfor %}
-</ul>
+{% block content %}
+    {% include '_header.html.twig' %}
+    <h1>Liste des oignons</h1>
+    <ul>
+        {% for oignon in oignons %}
+            <li>{{ oignon.name }}</li>
+        {% else %}
+            <li>Aucun oignon trouvé.</li>
+        {% endfor %}
+    </ul>
     <ul>
         <li>Your controller at <code>C:/Users/Tom/Documents/IUT/A3/S5/progav/src/Controller/OignonController.php</code></li>
         <li>Your template at <code>C:/Users/Tom/Documents/IUT/A3/S5/progav/templates/oignon/index.html.twig</code></li>
     </ul>
-</div>
+    </div>
+    {% include '_footer.html.twig' %}
 {% endblock %}

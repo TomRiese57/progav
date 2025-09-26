@@ -1,16 +1,19 @@
 {% extends 'base.html.twig' %}
 {% block title %}Burger{% endblock %}
-{% block body %}
-<h1>Burger</h1>
-{% if burger %}
-    <p>Nom : {{ burger.name is defined ? burger.name : burger.nom }}</p>
-    {% if burger.description is defined %}
-        <p>Description : {{ burger.description }}</p>
+{% block content %}
+    {% include '_header.html.twig' %}
+    <h1>Burger</h1>
+    {% if burger %}
+        <p>Nom : {{ burger.name }}</p>
+        <p>Prix : {{ burger.price }} €</p>
+        <p>Pain : {{ burger.pain ? burger.pain.name : 'Non renseigné' }}</p>
+        <p>Oignon : {{ burger.oignon ? burger.oignon.name : 'Non renseigné' }}</p>
+        <p>Sauce : {{ burger.sauce ? burger.sauce.name : 'Non renseigné' }}</p>
+        {% if burger.image %}
+            <img src="{{ burger.image.url }}" alt="Image du burger">
+        {% endif %}
+    {% else %}
+        <p>Burger non trouvé.</p>
     {% endif %}
-    {% if burger.prix is defined %}
-        <p>Prix : {{ burger.prix }} €</p>
-    {% endif %}
-{% else %}
-    <p>Burger non trouvé.</p>
-{% endif %}
+    {% include '_footer.html.twig' %}
 {% endblock %}

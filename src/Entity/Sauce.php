@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use App\Repository\SauceRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 
 #[ORM\Entity(repositoryClass: SauceRepository::class)]
 class Sauce
@@ -16,12 +18,12 @@ class Sauce
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\ManyToMany(targetEntity: Burger::class, mappedBy: 'sauce')]
-    private $burgers;
+    #[ORM\OneToMany(mappedBy: 'sauce', targetEntity: Burger::class)]
+    private Collection $burgers;
 
     public function __construct()
     {
-        $this->burgers = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->burgers = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -39,5 +41,13 @@ class Sauce
         $this->name = $name;
 
         return $this;
+    }
+
+    /**
+     * @return Collection<int, Burger>
+     */
+    public function getBurgers(): Collection
+    {
+        return $this->burgers;
     }
 }

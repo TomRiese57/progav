@@ -13,18 +13,19 @@ use Symfony\Component\HttpFoundation\Request;
 final class OignonController extends AbstractController
 {
     #[Route('/oignon', name: 'app_oignon')]
-    public function index(): Response
+    public function index(OignonRepository $oignonRepository): Response
     {
+        $oignons = $oignonRepository->findAll();
         return $this->render('oignon/index.html.twig', [
-            'controller_name' => 'OignonController',
+            'oignons' => $oignons,
         ]);
     }
 
-    #[Route('/oignon/create', name: 'oignon_create')]
-    public function create(EntityManagerInterface $entityManager): Response
+    #[Route('/oignon/create/{name}', name: 'oignon_create')]
+    public function create(EntityManagerInterface $entityManager, string $name): Response
     {
         $oignon = new Oignon();
-        $oignon->setName('Oignon classique');
+        $oignon->setName($name);
 
         $entityManager->persist($oignon);
         $entityManager->flush();
@@ -45,14 +46,14 @@ final class OignonController extends AbstractController
         ]);
     }
 
-    #[Route('/oignon/{id}/update', name: 'oignon_update')]
-    public function update(Request $request, EntityManagerInterface $entityManager, OignonRepository $oignonRepository, int $id): Response
+    #[Route('/oignon/{id}/update/{name}', name: 'oignon_update')]
+    public function update(Request $request, EntityManagerInterface $entityManager, OignonRepository $oignonRepository, int $id, string $name): Response
     {
         $oignon = $oignonRepository->find($id);
         if (!$oignon) {
             throw $this->createNotFoundException('Oignon non trouvé');
         }
-        $oignon->setName('Oignon modifié');
+        $oignon->setName($name);
         $entityManager->flush();
         return new Response('Oignon modifié avec succès !');
     }

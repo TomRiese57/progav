@@ -13,18 +13,19 @@ use Symfony\Component\HttpFoundation\Request;
 final class PainController extends AbstractController
 {
     #[Route('/pain', name: 'app_pain')]
-    public function index(): Response
+    public function index(PainRepository $painRepository): Response
     {
+        $pains = $painRepository->findAll();
         return $this->render('pain/index.html.twig', [
-            'controller_name' => 'PainController',
+            'pains' => $pains,
         ]);
     }
 
-    #[Route('/pain/create', name: 'pain_create')]
-    public function create(EntityManagerInterface $entityManager): Response
+    #[Route('/pain/create/{name}', name: 'pain_create')]
+    public function create(EntityManagerInterface $entityManager, string $name): Response
     {
         $pain = new Pain();
-        $pain->setName('Pain classique');
+        $pain->setName($name);
 
         $entityManager->persist($pain);
         $entityManager->flush();
@@ -45,14 +46,14 @@ final class PainController extends AbstractController
         ]);
     }
 
-    #[Route('/pain/{id}/update', name: 'pain_update')]
-    public function update(Request $request, EntityManagerInterface $entityManager, PainRepository $painRepository, int $id): Response
+    #[Route('/pain/{id}/update/{name}', name: 'pain_update')]
+    public function update(Request $request, EntityManagerInterface $entityManager, PainRepository $painRepository, int $id, string $name): Response
     {
         $pain = $painRepository->find($id);
         if (!$pain) {
             throw $this->createNotFoundException('Pain non trouvé');
         }
-        $pain->setName('Pain modifié');
+        $pain->setName($name);
         $entityManager->flush();
         return new Response('Pain modifié avec succès !');
     }

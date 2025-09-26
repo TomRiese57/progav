@@ -13,10 +13,12 @@ use Symfony\Component\HttpFoundation\Request;
 final class ImageController extends AbstractController
 {
     #[Route('/image', name: 'app_image')]
-    public function index(): Response
+    public function index(ImageRepository $imageRepository): Response
     {
+        $images = $imageRepository->findAll();
         return $this->render('image/index.html.twig', [
             'controller_name' => 'ImageController',
+            'images' => $images,
         ]);
     }
 
@@ -24,7 +26,7 @@ final class ImageController extends AbstractController
     public function create(EntityManagerInterface $entityManager): Response
     {
         $image = new Image();
-        $image->setName('Image classique');
+        $image->setUrl('/burger.jpg');
 
         $entityManager->persist($image);
         $entityManager->flush();

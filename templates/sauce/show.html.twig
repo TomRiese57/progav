@@ -1,10 +1,12 @@
 {% extends 'base.html.twig' %}
 {% block title %}Sauce{% endblock %}
-{% block body %}
-<h1>Sauce</h1>
-{% if sauce %}
-    <p>Nom : {{ sauce.name }}</p>
-{% else %}
-    <p>Sauce non trouvée.</p>
-{% endif %}
+{% block content %}
+    {% include '_header.html.twig' %}
+    <h1>Sauce</h1>
+    {% if sauce %}
+        <p>Nom : {{ sauce.name }}</p>
+    {% else %}
+        <p>Sauce non trouvée.</p>
+    {% endif %}
+    {% include '_footer.html.twig' %}
 {% endblock %}

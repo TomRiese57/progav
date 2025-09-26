@@ -7,6 +7,10 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Burger;
+use App\Entity\Pain;
+use App\Entity\Oignon;  
+use App\Entity\Sauce;
+use App\Entity\Image;
 use App\Repository\BurgerRepository;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -39,25 +43,20 @@ class BurgerController extends AbstractController
         ]);
     }
 
-    #[Route('/burger/{id}', name: 'burger_show')]
-    public function show(int $id): Response
-    {
-        $burgers = self::$burgers;
-        if (!isset($burgers[$id])) {
-           return $this->render('burger_show.html.twig', [
-                'burger' => null,
-            ]);
-        }
-        return $this->render('burger_show.html.twig', [
-            'burger' => $burgers[$id],
-        ]);
-    }
-
     #[Route('/burger/create', name: 'burger_create')]
     public function create(EntityManagerInterface $entityManager): Response
     {
         $burger = new Burger();
         $burger->setName('Burger classique');
+        $burger->setPrice(5);
+        $pain = $entityManager->getRepository(Pain::class)->find(3);
+        $burger->setPain($pain);
+        $oignon = $entityManager->getRepository(Oignon::class)->find(3);
+        $burger->setOignon($oignon);
+        $sauce = $entityManager->getRepository(Sauce::class)->find(3);
+        $burger->setSauce($sauce);
+        $image = $entityManager->getRepository(Image::class)->find(3);
+        $burger->setImage($image);
 
         $entityManager->persist($burger);
         $entityManager->flush();
@@ -106,6 +105,38 @@ class BurgerController extends AbstractController
     {
         $burgers = $burgerRepository->findAll();
         return $this->render('burger/index.html.twig', [
+            'burgers' => $burgers,
+        ]);
+    }
+
+    #[Route('/burger/ingredient/{ingredient}', name: 'burger_by_ingredient')]
+    public function burgersByIngredient(BurgerRepository $burgerRepository, string $ingredient): Response
+    {
+        $burgers = $burgerRepository->findBurgersWithIngredient($ingredient);
+
+        return $this->render('burger/by_ingredient.html.twig', [
+            'ingredient' => $ingredient,
+            'burgers' => $burgers,
+        ]);
+    }
+
+     #[Route('/burger/price/{limite}', name: 'burger_by_price')]
+    public function burgersByPrice(BurgerRepository $burgerRepository, int $limite): Response
+    {
+        $burgers = $burgerRepository->findTopXBurgers($limite);
+
+        return $this->render('burger/by_price.html.twig', [
+            'burgers' => $burgers,
+        ]);
+    }
+
+    #[Route('/burger/wingredient/{ingredient}', name: 'burger_without_ingredient')]
+    public function burgersWithoutIngredient(BurgerRepository $burgerRepository, string $ingredient): Response
+    {
+        $burgers = $burgerRepository->findBurgersWithoutIngredient($ingredient);
+
+        return $this->render('burger/without_ingredient.html.twig', [
+            'ingredient' => $ingredient,
             'burgers' => $burgers,
         ]);
     }

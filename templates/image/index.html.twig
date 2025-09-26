@@ -2,18 +2,20 @@
 
 {% block title %}Liste des images{% endblock %}
 
-{% block body %}
-<h1>Liste des images</h1>
-<ul>
-    {% for image in images %}
-        <li>{{ image.name }}</li>
-    {% else %}
-        <li>Aucune image trouvée.</li>
-    {% endfor %}
-</ul>
+{% block content %}
+    {% include '_header.html.twig' %}
+    <h1>Liste des images</h1>
+    <ul>
+        {% for image in images %}
+            <li>{{ image.name }}</li>
+        {% else %}
+            <li>Aucune image trouvée.</li>
+        {% endfor %}
+    </ul>
     <ul>
         <li>Your controller at <code>C:/Users/Tom/Documents/IUT/A3/S5/progav/src/Controller/ImageController.php</code></li>
         <li>Your template at <code>C:/Users/Tom/Documents/IUT/A3/S5/progav/templates/image/index.html.twig</code></li>
     </ul>
-</div>
+    </div>
+    {% include '_footer.html.twig' %}
 {% endblock %}

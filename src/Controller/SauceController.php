@@ -13,18 +13,19 @@ use Symfony\Component\HttpFoundation\Request;
 final class SauceController extends AbstractController
 {
     #[Route('/sauce', name: 'app_sauce')]
-    public function index(): Response
+    public function index(SauceRepository $sauceRepository): Response
     {
+        $sauces = $sauceRepository->findAll();
         return $this->render('sauce/index.html.twig', [
-            'controller_name' => 'SauceController',
+            'sauces' => $sauces,
         ]);
     }
 
-    #[Route('/sauce/create', name: 'sauce_create')]
-    public function create(EntityManagerInterface $entityManager): Response
+    #[Route('/sauce/create/{name}', name: 'sauce_create')]
+    public function create(EntityManagerInterface $entityManager, string $name): Response
     {
         $sauce = new Sauce();
-        $sauce->setName('Sauce classique');
+        $sauce->setName($name);
 
         $entityManager->persist($sauce);
         $entityManager->flush();
@@ -45,14 +46,14 @@ final class SauceController extends AbstractController
         ]);
     }
 
-    #[Route('/sauce/{id}/update', name: 'sauce_update')]
-    public function update(Request $request, EntityManagerInterface $entityManager, SauceRepository $sauceRepository, int $id): Response
+    #[Route('/sauce/{id}/update/{name}', name: 'sauce_update')]
+    public function update(Request $request, EntityManagerInterface $entityManager, SauceRepository $sauceRepository, int $id, string $name): Response
     {
         $sauce = $sauceRepository->find($id);
         if (!$sauce) {
             throw $this->createNotFoundException('Sauce non trouvée');
         }
-        $sauce->setName('Sauce modifiée');
+        $sauce->setName($name);
         $entityManager->flush();
         return new Response('Sauce modifiée avec succès !');
     }

@@ -25,10 +25,12 @@ class Burger
     #[ORM\JoinColumn(nullable: false)]
     private $pain;
 
-    #[ORM\ManyToMany(targetEntity: Oignon::class, inversedBy: 'burgers')]
+    #[ORM\ManyToOne(targetEntity: Oignon::class, inversedBy: 'burgers')]
+    #[ORM\JoinColumn(nullable: false)]
     private $oignon;
 
-    #[ORM\ManyToMany(targetEntity: Sauce::class, inversedBy: 'burgers')]
+    #[ORM\ManyToOne(targetEntity: Sauce::class, inversedBy: 'burgers')]
+    #[ORM\JoinColumn(nullable: false)]
     private $sauce;
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
@@ -36,13 +38,6 @@ class Burger
 
     #[ORM\OneToMany(targetEntity: Commentaire::class, mappedBy: 'burger')]
     private $commentaires;
-
-    public function __construct()
-    {
-        $this->oignon = new ArrayCollection();
-        $this->sauce = new ArrayCollection();
-        $this->commentaires = new ArrayCollection();
-    }
 
     public function getId(): ?int
     {
@@ -84,47 +79,25 @@ class Burger
         return $this;
     }
 
-    /**
-     * @return Collection<int, Oignon>
-     */
-    public function getOignon(): Collection
+    public function getOignon()
     {
         return $this->oignon;
     }
 
-    public function addOignon(Oignon $oignon): static
+    public function setOignon($oignon): static
     {
-        if (!$this->oignon->contains($oignon)) {
-            $this->oignon[] = $oignon;
-        }
+        $this->oignon = $oignon;
         return $this;
     }
 
-    public function removeOignon(Oignon $oignon): static
-    {
-        $this->oignon->removeElement($oignon);
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Sauce>
-     */
-    public function getSauce(): Collection
+    public function getSauce()
     {
         return $this->sauce;
     }
 
-    public function addSauce(Sauce $sauce): static
+    public function setSauce($sauce): static
     {
-        if (!$this->sauce->contains($sauce)) {
-            $this->sauce[] = $sauce;
-        }
-        return $this;
-    }
-
-    public function removeSauce(Sauce $sauce): static
-    {
-        $this->sauce->removeElement($sauce);
+        $this->sauce = $sauce;
         return $this;
     }
 
@@ -167,3 +140,4 @@ class Burger
         return $this;
     }
 }
+

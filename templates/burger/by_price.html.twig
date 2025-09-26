@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}X burgers{% endblock %}
+
+{% block content %}
+    {% include '_header.html.twig' %}
+    
+    <h1>Méthode qui retourne les X burgers les plus chers de la base de données €</h1>
+    
+    {% if burgers is not empty %}
+        <ul>
+            {% for burger in burgers %}
+                <li>
+                    {{ burger.name }} - {{ burger.price }} €
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Aucun burger trouvé en dessous de {{ limite }} €.</p>
+    {% endif %}
+    
+    <a href="{{ path('burger_index') }}">Retour à la liste des burgers</a>
+    
+    {% include '_footer.html.twig' %}
+{% endblock %}
