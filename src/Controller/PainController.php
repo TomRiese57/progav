@@ -2,71 +2,21 @@
 
 namespace App\Controller;
 
+use App\Repository\PainRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use Doctrine\ORM\EntityManagerInterface;
-use App\Entity\Pain;
-use App\Repository\PainRepository;
-use Symfony\Component\HttpFoundation\Request;
 
+#[Route('/pain', name: 'pain_')]
 final class PainController extends AbstractController
 {
-    #[Route('/pain', name: 'app_pain')]
-    public function index(PainRepository $painRepository): Response
+    #[Route('/liste', name: 'liste')]
+    public function liste(PainRepository $painRepository): Response
     {
         $pains = $painRepository->findAll();
-        return $this->render('pain/index.html.twig', [
+        return $this->render('pain/liste_pain.html.twig', [
             'pains' => $pains,
         ]);
-    }
 
-    #[Route('/pain/create/{name}', name: 'pain_create')]
-    public function create(EntityManagerInterface $entityManager, string $name): Response
-    {
-        $pain = new Pain();
-        $pain->setName($name);
-
-        $entityManager->persist($pain);
-        $entityManager->flush();
-
-        return new Response('Pain créé avec succès !');
-    }
-
-    #[Route('/pain/{id}', name: 'pain_read')]
-    public function read(PainRepository $painRepository, int $id): Response
-    {
-        $pain = $painRepository->find($id);
-        if (!$pain) {
-            throw $this->createNotFoundException('Pain non trouvé');
-        }
-
-        return $this->render('pain/show.html.twig', [
-            'pain' => $pain,
-        ]);
-    }
-
-    #[Route('/pain/{id}/update/{name}', name: 'pain_update')]
-    public function update(Request $request, EntityManagerInterface $entityManager, PainRepository $painRepository, int $id, string $name): Response
-    {
-        $pain = $painRepository->find($id);
-        if (!$pain) {
-            throw $this->createNotFoundException('Pain non trouvé');
-        }
-        $pain->setName($name);
-        $entityManager->flush();
-        return new Response('Pain modifié avec succès !');
-    }
-
-    #[Route('/pain/{id}/delete', name: 'pain_delete')]
-    public function delete(EntityManagerInterface $entityManager, PainRepository $painRepository, int $id): Response
-    {
-        $pain = $painRepository->find($id);
-        if (!$pain) {
-            throw $this->createNotFoundException('Pain non trouvé');
-        }
-        $entityManager->remove($pain);
-        $entityManager->flush();
-        return new Response('Pain supprimé avec succès !');
     }
 }

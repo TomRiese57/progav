@@ -1,143 +1,52 @@
-<?php
+<?php 
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Attribute\Route;
-use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Burger;
-use App\Entity\Pain;
-use App\Entity\Oignon;  
-use App\Entity\Sauce;
-use App\Entity\Image;
 use App\Repository\BurgerRepository;
-use Symfony\Component\HttpFoundation\Request;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
+#[Route('/burger', name: 'burger_')]
 class BurgerController extends AbstractController
 {
-    private static array $burgers = [
-        [
-            'nom' => 'Cheeseburger',
-            'description' => 'Un burger classique avec du fromage fondant.',
-            'prix' => 5.99
-        ],
-        [
-            'nom' => 'Hamburger',
-            'description' => 'Un burger simple avec steak et garnitures.',
-            'prix' => 4.99
-        ],
-        [
-            'nom' => 'Big Mac',
-            'description' => 'Le célèbre Big Mac avec sa sauce spéciale.',
-            'prix' => 6.99
-        ]
-    ];
-
-    #[Route('/burger', name: 'liste_burger')]
-    public function liste(): Response
+    #[Route('/liste', name: 'liste')]
+    public function liste(BurgerRepository $burgerRepository): Response
     {
-        $burgers = self::$burgers;
-        return $this->render('liste_burger.html.twig', [
+        $burgers = $burgerRepository->findAll();
+
+        return $this->render('burger/liste_burger.html.twig', [
             'burgers' => $burgers,
         ]);
     }
 
-    #[Route('/burger/create', name: 'burger_create')]
-    public function create(EntityManagerInterface $entityManager): Response
-    {
-        $burger = new Burger();
-        $burger->setName('Burger classique');
-        $burger->setPrice(5);
-        $pain = $entityManager->getRepository(Pain::class)->find(3);
-        $burger->setPain($pain);
-        $oignon = $entityManager->getRepository(Oignon::class)->find(3);
-        $burger->setOignon($oignon);
-        $sauce = $entityManager->getRepository(Sauce::class)->find(3);
-        $burger->setSauce($sauce);
-        $image = $entityManager->getRepository(Image::class)->find(3);
-        $burger->setImage($image);
-
-        $entityManager->persist($burger);
-        $entityManager->flush();
-
-        return new Response('Burger créé avec succès !');
-    }
-
-    #[Route('/burger/{id}', name: 'burger_read')]
-    public function read(BurgerRepository $burgerRepository, int $id): Response
+    #[Route('/burger/show/{id}', name: 'detail')]
+    public function detail(int $id, BurgerRepository $burgerRepository): Response
     {
         $burger = $burgerRepository->find($id);
+
         if (!$burger) {
-            throw $this->createNotFoundException('Burger non trouvé');
+            throw $this->createNotFoundException("Burger avec l'id $id introuvable.");
         }
-        return $this->render('burger/show.html.twig', [
+
+        return $this->render('burger/detail.html.twig', [
             'burger' => $burger,
         ]);
     }
 
-    #[Route('/burger/{id}/update', name: 'burger_update')]
-    public function update(Request $request, EntityManagerInterface $entityManager, BurgerRepository $burgerRepository, int $id): Response
+    #[Route('/creation', name: 'creation')]
+    public function create(EntityManagerInterface $entityManager): Response
     {
-        $burger = $burgerRepository->find($id);
-        if (!$burger) {
-            throw $this->createNotFoundException('Burger non trouvé');
-        }
-        $burger->setName('Burger modifié');
+        $burger = new Burger();
+        $burger->setNom('Krabby Patty');
+        $burger->setPrix(4.99);
+    
+        // Persister et sauvegarder le nouveau burger
+        $entityManager->persist($burger);
         $entityManager->flush();
-        return new Response('Burger modifié avec succès !');
-    }
-
-    #[Route('/burger/{id}/delete', name: 'burger_delete')]
-    public function delete(EntityManagerInterface $entityManager, BurgerRepository $burgerRepository, int $id): Response
-    {
-        $burger = $burgerRepository->find($id);
-        if (!$burger) {
-            throw $this->createNotFoundException('Burger non trouvé');
-        }
-        $entityManager->remove($burger);
-        $entityManager->flush();
-        return new Response('Burger supprimé avec succès !');
-    }
-
-    #[Route('/burgers', name: 'burger_index')]
-    public function index(BurgerRepository $burgerRepository): Response
-    {
-        $burgers = $burgerRepository->findAll();
-        return $this->render('burger/index.html.twig', [
-            'burgers' => $burgers,
-        ]);
-    }
-
-    #[Route('/burger/ingredient/{ingredient}', name: 'burger_by_ingredient')]
-    public function burgersByIngredient(BurgerRepository $burgerRepository, string $ingredient): Response
-    {
-        $burgers = $burgerRepository->findBurgersWithIngredient($ingredient);
-
-        return $this->render('burger/by_ingredient.html.twig', [
-            'ingredient' => $ingredient,
-            'burgers' => $burgers,
-        ]);
-    }
-
-     #[Route('/burger/price/{limite}', name: 'burger_by_price')]
-    public function burgersByPrice(BurgerRepository $burgerRepository, int $limite): Response
-    {
-        $burgers = $burgerRepository->findTopXBurgers($limite);
-
-        return $this->render('burger/by_price.html.twig', [
-            'burgers' => $burgers,
-        ]);
-    }
-
-    #[Route('/burger/wingredient/{ingredient}', name: 'burger_without_ingredient')]
-    public function burgersWithoutIngredient(BurgerRepository $burgerRepository, string $ingredient): Response
-    {
-        $burgers = $burgerRepository->findBurgersWithoutIngredient($ingredient);
-
-        return $this->render('burger/without_ingredient.html.twig', [
-            'ingredient' => $ingredient,
-            'burgers' => $burgers,
-        ]);
+    
+        return new Response('Burger créé avec succès !');
     }
 }

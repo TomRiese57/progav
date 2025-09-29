@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }} | Détail {{ burger.nom }}{% endblock %}
+
+{% block body %}
+    <div class="burger-detail-container">
+        <div class="burger-detail-card">
+            <h2 class="burger-detail-title">{{ burger.nom }}</h2>
+
+            {% if burger.image %}
+                <img 
+                    class="burger-detail-image" 
+                    src="{{ asset(burger.image.url) }}" 
+                    alt="{{ burger.image.altText ?? burger.nom }}"
+                >
+            {% endif %}
+
+            <div class="burger-detail-info">
+                <p class="burger-detail-description">
+                    {{ burger.description ?? 'Pas de description disponible.' }}
+                </p>
+
+                <p class="burger-detail-price">
+                    Prix : <strong>{{ burger.prix|number_format(2, ',', ' ') }} €</strong>
+                </p>
+            </div>
+
+            <a class="burger-detail-back" href="{{ path('burger_liste') }}">
+                ← Retour à la liste
+            </a>
+        </div>
+    </div>
+{% endblock %}

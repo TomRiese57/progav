@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+{% block title %}{{ parent() }} | Liste Burger{% endblock %}
+
+{% block body %}
+    <div class="d-flex justify-content-between align-items-center">
+        <h1>Liste Burger</h1>
+        <button class="btn btn-success" type="button">
+            <a href="{{ path('burger_creation') }}"> + </a> 
+        </button>
+    </div>
+
+    <div class="card-deck">
+        {% for burger in burgers %}
+            <div class="card">
+                <img class="card-img-top" src="{{ asset((burger.image) ? burger.image.url : '') }}" alt="Image Burger">
+                <div class="card-body text-center">
+                    <h5 class="card-title">{{ burger.nom }}</h5>
+                    <a href="{{ path("burger_detail", {'id': burger.id}) }}">Détail</a>
+                </div>
+            </div>
+        {% else %}
+            <p>Aucun burger n’a encore été ajouté 🍔😢</p>
+        {% endfor %}
+    </div>
+{% endblock %}

@@ -8,6 +8,7 @@
     pkgs.php
     pkgs.symfony-cli
     pkgs.php82Packages.composer
+    pkgs.openssl
   ];
 
   services.mysql = {
