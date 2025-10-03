@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+{% block title %}{{ parent() }} | Ajout Burger{% endblock %}
+ 
+{% block content %}
+    <h1 style="text-align: center;">Créer un burger</h1>
+
+    {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <button class="btn btn-success">+</button>
+    {{ form_end(form) }}
+{% endblock %}

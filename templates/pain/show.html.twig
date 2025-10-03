@@ -1,12 +1,12 @@
 {% extends 'base.html.twig' %}
 {% block title %}Pain{% endblock %}
 {% block content %}
-    {% include '_header.html.twig' %}
+    
     <h1>Pain</h1>
     {% if pain %}
         <p>Nom : {{ pain.name }}</p>
     {% else %}
         <p>Pain non trouvé.</p>
     {% endif %}
-    {% include '_footer.html.twig' %}
+    
 {% endblock %}

@@ -4,6 +4,9 @@ body {
     background: radial-gradient(circle at top left, #fef3c7, #fde68a, #f59e0b);
     font-family: 'Fredoka One', cursive;
     color: #2d2d2d;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* la page occupe toute la hauteur */
 }
 
 /* Header titre */
@@ -13,6 +16,18 @@ h1 {
     color: #ff4757;
     text-shadow: 4px 4px #fbc531, 6px 6px #e17055;
     letter-spacing: 2px;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    margin: 8% 0 0 0;
+    padding: 15px;
+    background: #ddaa02;
+    color: white;
+    bottom: 0;
+    width: 100%;
+    box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
 }
 
 /* Bouton + burger croustillant */
@@ -156,4 +171,86 @@ h1 {
 
 .burger-detail-back:hover {
     background: #2980b9;
+}
+
+/* Conteneur du formulaire */
+form {
+    max-width: 500px;
+    margin: 40px auto 100px auto;
+    padding: 25px;
+    background: #1a1a1a;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    color: #f0f0f0;
+    font-family: Arial, sans-serif;
+}
+
+/* Labels */
+form label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: bold;
+    color: #ff8400; /* vert fluo */
+}
+
+/* Champs de formulaire */
+form input[type="text"],
+form input[type="number"],
+form input[type="email"],
+form input[type="password"],
+form select,
+form textarea {
+    width: 100%;
+    padding: 10px 12px;
+    margin-bottom: 15px;
+    border: 1px solid #333;
+    border-radius: 8px;
+    background: #2a2a2a;
+    color: #f0f0f0;
+    font-size: 14px;
+    transition: border 0.2s, box-shadow 0.2s;
+}
+
+/* Focus */
+form input:focus,
+form select:focus,
+form textarea:focus {
+    border: 1px solid #00ff88;
+    box-shadow: 0 0 6px #00ff8844;
+    outline: none;
+}
+
+/* Bouton */
+form button,
+form input[type="submit"] {
+    display: inline-block;
+    width: 100%;
+    padding: 12px;
+    background: #00ff88;
+    border: none;
+    border-radius: 8px;
+    color: #1a1a1a;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+}
+
+form button:hover,
+form input[type="submit"]:hover {
+    background: #00cc6a;
+    transform: translateY(-2px);
+}
+
+form button:active,
+form input[type="submit"]:active {
+    transform: translateY(0);
+}
+
+/* Messages d'erreur */
+form .form-error-message {
+    color: #ff4444;
+    font-size: 13px;
+    margin-top: -10px;
+    margin-bottom: 10px;
 }

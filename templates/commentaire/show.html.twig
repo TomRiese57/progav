@@ -1,12 +1,12 @@
 {% extends 'base.html.twig' %}
 {% block title %}Commentaire{% endblock %}
 {% block content %}
-    {% include '_header.html.twig' %}
+    
     <h1>Commentaire</h1>
     {% if commentaire %}
         <p>Nom : {{ commentaire.name }}</p>
     {% else %}
         <p>Commentaire non trouvé.</p>
     {% endif %}
-    {% include '_footer.html.twig' %}
+    
 {% endblock %}

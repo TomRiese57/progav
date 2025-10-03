@@ -1,12 +1,12 @@
 {% extends 'base.html.twig' %}
 {% block title %}Oignon{% endblock %}
 {% block content %}
-    {% include '_header.html.twig' %}
+    
     <h1>Oignon</h1>
     {% if oignon %}
         <p>Nom : {{ oignon.name }}</p>
     {% else %}
         <p>Oignon non trouvé.</p>
     {% endif %}
-    {% include '_footer.html.twig' %}
+    
 {% endblock %}

@@ -1,25 +1,27 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}X burgers{% endblock %}
+{% block title %}Burgers avec au moins {{ min }} ingrédients{% endblock %}
 
 {% block content %}
-    {% include '_header.html.twig' %}
     
-    <h1>Méthode qui retourne les X burgers les plus chers de la base de données €</h1>
+    <h1>Méthode qui retourne les burgers ayant au moins {{ min }} ingrédients</h1>
     
     {% if burgers is not empty %}
         <ul>
             {% for burger in burgers %}
                 <li>
-                    {{ burger.name }} - {{ burger.price }} €
+                    {{ burger.nom }}
+                    — Pain : {{ burger.pain.nom ?? 'aucun' }}
+                    — Oignon : {{ burger.oignon.nom ?? 'aucun' }}
+                    — Sauce : {{ burger.sauce.nom ?? 'aucune' }}
                 </li>
             {% endfor %}
         </ul>
     {% else %}
-        <p>Aucun burger trouvé en dessous de {{ limite }} €.</p>
+        <p>Aucun burger trouvé avec au moins {{ min }} ingrédients.</p>
     {% endif %}
     
-    <a href="{{ path('burger_index') }}">Retour à la liste des burgers</a>
+    <a href="{{ path('burger_liste') }}">Retour à la liste des burgers</a>
     
-    {% include '_footer.html.twig' %}
+    
 {% endblock %}

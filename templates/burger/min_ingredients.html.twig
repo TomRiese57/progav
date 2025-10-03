@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Burgers avec au moins {{ min }} ingrédients{% endblock %}
+
+{% block body %}
+    <h1>Burgers avec au moins {{ min }} ingrédients</h1>
+
+    {% if burgers is not empty %}
+        <ul>
+            {% for burger in burgers %}
+                <li>
+                    <strong>{{ burger.nom }}</strong><br>
+                    Pain : {{ burger.pain.nom ?? 'aucun' }} <br>
+                    Oignon : {{ burger.oignon.nom ?? 'aucun' }} <br>
+                    Sauce : {{ burger.sauce.nom ?? 'aucune' }}
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Aucun burger ne possède au moins {{ min }} ingrédients.</p>
+    {% endif %}
+{% endblock %}

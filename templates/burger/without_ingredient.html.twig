@@ -3,7 +3,7 @@
 {% block title %}Burgers avec l'ingrédient "{{ ingredient }}"{% endblock %}
 
 {% block content %}
-    {% include '_header.html.twig' %}
+    
     <h1>Burgers sans l'ingrédient "{{ ingredient }}"</h1>
     {% if burgers is not empty %}
         <ul>
@@ -16,6 +16,6 @@
     {% else %}
         <p>Aucun burger trouvé avec cet ingrédient.</p>
     {% endif %}
-    <a href="{{ path('burger_index') }}">Retour à la liste des burgers</a>
-    {% include '_footer.html.twig' %}
+    <a href="{{ path('burger_liste') }}">Retour à la liste des burgers</a>
+    
 {% endblock %}
